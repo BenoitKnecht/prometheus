@@ -763,7 +763,7 @@ mainLoop:
 		}
 
 		var (
-			start             = time.Now()
+			start             = time.Now().Truncate(time.Minute)
 			scrapeCtx, cancel = context.WithTimeout(sl.ctx, timeout)
 		)
 
