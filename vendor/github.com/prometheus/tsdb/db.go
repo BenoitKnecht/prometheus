@@ -376,6 +376,7 @@ func (db *DB) compact() (changes bool, err error) {
 			break
 		}
 		mint, maxt := rangeForTimestamp(db.head.MinTime(), db.opts.BlockRanges[0])
+		maxt--
 
 		// Wrap head into a range that bounds all reads to it.
 		head := &rangeHead{
@@ -550,7 +551,7 @@ func (db *DB) reload(deleteable ...string) (err error) {
 	if len(blocks) == 0 {
 		return nil
 	}
-	maxt := blocks[len(blocks)-1].Meta().MaxTime
+	maxt := blocks[len(blocks)-1].Meta().MaxTime + 1
 
 	return errors.Wrap(db.head.Truncate(maxt), "head truncate failed")
 }
